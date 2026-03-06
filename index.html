@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VOID — Creative Agency</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg: #050505;
+            --surface: #0a0a0a;
+            --text: #ffffff;
+            --text-dim: #888;
+            --accent: #ff3300;
+            --accent-2: #00ff88;
+            --border: #222;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+        
+        .font-display {
+            font-family: 'Syne', sans-serif;
+        }
+        
+        /* Custom Cursor */
+        .cursor {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            background: var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.2s;
+        }
+        
+        .cursor.hover {
+            transform: scale(3);
+        }
+        
+        /* Layout */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1.5rem 0;
+            mix-blend-mode: difference;
+        }
+        
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        
+        .menu-toggle {
+            width: 48px;
+            height: 48px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            transition: border-color 0.3s;
+        }
+        
+        .menu-toggle:hover {
+            border-color: var(--accent);
+        }
+        
+        .menu-toggle span {
+            display: block;
+            width: 20px;
+            height: 1px;
+            background: currentColor;
+            transition: transform 0.3s;
+        }
+        
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 8rem 0 4rem;
+            position: relative;
+        }
+        
+        .hero-marquee {
+            overflow: hidden;
+            white-space: nowrap;
+            margin-bottom: 2rem;
+            opacity: 0.3;
+        }
+        
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 20s linear infinite;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+        
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        
+        .hero h1 {
+            font-size: clamp(4rem, 15vw, 12rem);
+            font-weight: 800;
+            line-height: 0.85;
+            letter-spacing: -0.04em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+        }
+        
+        .hero h1 span {
+            display: block;
+        }
+        
+        .hero h1 span:nth-child(2) {
+            color: transparent;
+            -webkit-text-stroke: 1px var(--text);
+        }
+        
+        .hero-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+        
+        .hero-info {
+            max-width: 400px;
+        }
+        
+        .hero-info p {
+            color: var(--text-dim);
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            border: 1px solid var(--border);
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.3s;
+        }
+        
+        .hero-cta:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--bg);
+        }
+        
+        .hero-status {
+            text-align: right;
+        }
+        
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-dim);
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-2);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        /* Projects */
+        .projects {
+            padding: 4rem 0;
+        }
+        
+        .section-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--text-dim);
+            margin-bottom: 3rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .project-list {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .project-item {
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            align-items: center;
+            gap: 2rem;
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: padding 0.3s;
+        }
+        
+        .project-item:hover {
+            padding-left: 1rem;
+            background: var(--surface);
+        }
+        
+        .project-item h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+        }
+        
+        .project-meta {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .project-arrow {
+            width: 48px;
+            height: 48px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .project-item:hover .project-arrow {
+            background: var(--accent);
+            border-color: var(--accent);
+            transform: rotate(45deg);
+        }
+        
+        /* About */
+        .about {
+            padding: 8rem 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+        
+        .about-content h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 2rem;
+        }
+        
+        .about-content h2 span {
+            color: var(--accent);
+        }
+        
+        .about-content p {
+            color: var(--text-dim);
+            font-size: 0.875rem;
+            line-height: 1.8;
+            max-width: 500px;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+        
+        .stat-item {
+            padding: 2rem;
+            border: 1px solid var(--border);
+        }
+        
+        .stat-number {
+            font-family: 'Syne', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-dim);
+        }
+        
+        /* Footer */
+        footer {
+            padding: 4rem 0;
+            border-top: 1px solid var(--border);
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+        }
+        
+        .footer-brand p {
+            color: var(--text-dim);
+            font-size: 0.875rem;
+            margin-top: 1rem;
+            max-width: 300px;
+        }
+        
+        .footer-col h4 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-dim);
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-col ul {
+            list-style: none;
+        }
+        
+        .footer-col li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .footer-col a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.3s;
+        }
+        
+        .footer-col a:hover {
+            color: var(--accent);
+        }
+        
+        .footer-bottom {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .about {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .hero-bottom {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 2rem;
+            }
+            
+            .hero-status {
+                text-align: left;
+            }
+            
+            .project-item {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .project-arrow {
+                display: none;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor" id="cursor"></div>
+    
+    <header>
+        <div class="container">
+            <div class="header-inner">
+                <div class="logo">VOID</div>
+                <button class="menu-toggle" id="menu-toggle">
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <div class="hero-marquee">
+                <div class="marquee-content">
+                    Creative Direction • Brand Strategy • Digital Design • Web Development • Motion Design • Creative Direction • Brand Strategy • Digital Design • Web Development • Motion Design •
+                </div>
+            </div>
+            
+            <h1 class="font-display">
+                <span>Shape</span>
+                <span>The</span>
+                <span>Unknown</span>
+            </h1>
+            
+            <div class="hero-bottom">
+                <div class="hero-info">
+                    <p>We are a creative agency focused on building bold digital experiences for ambitious brands. Based in Tokyo, working globally.</p>
+                    <a href="#projects" class="hero-cta">
+                        Explore Work
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M2 8H14M14 8L10 4M14 8L10 12" stroke="currentColor" stroke-width="1.5"/>
+                        </svg>
+                    </a>
+                </div>
+                
+                <div class="hero-status">
+                    <div class="status-indicator">
+                        <span class="status-dot"></span>
+                        Available for projects
+                    </div>
+                    <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-dim);">
+                        Last updated: Just now
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="projects" id="projects">
+        <div class="container">
+            <div class="section-label">Selected Projects — 2024/2025</div>
+            
+            <div class="project-list">
+                <div class="project-item" data-cursor="hover">
+                    <h3>Monolith Systems</h3>
+                    <div class="project-meta">Web Design / Development</div>
+                    <div class="project-arrow">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M5 15L15 5M15 5H5M15 5V15" stroke="currentColor" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="project-item" data-cursor="hover">
+                    <h3>Prism Labs</h3>
+                    <div class="project-meta">Brand Identity / Strategy</div>
+                    <div class="project-arrow">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M5 15L15 5M15 5H5M15 5V15" stroke="currentColor" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="project-item" data-cursor="hover">
+                    <h3>Aether Dynamics</h3>
+                    <div class="project-meta">Product Design / UI System</div>
+                    <div class="project-arrow">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M5 15L15 5M15 5H5M15 5V15" stroke="currentColor" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="project-item" data-cursor="hover">
+                    <h3>Quantum Field</h3>
+                    <div class="project-meta">Motion / 3D Experience</div>
+                    <div class="project-arrow">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M5 15L15 5M15 5H5M15 5V15" stroke="currentColor" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="project-item" data-cursor="hover">
+                    <h3>Neural Link</h3>
+                    <div class="project-meta">App Design / Development</div>
+                    <div class="project-arrow">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M5 15L15 5M15 5H5M15 5V15" stroke="currentColor" stroke-width="1.5"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="about">
+        <div class="container">
+            <div class="about-content">
+                <h2 class="font-display">We create <span>digital</span> experiences that challenge conventions.</h2>
+                <p>Founded in 2022, VOID operates at the intersection of design and technology. We believe in the power of restraint, the beauty of brutalism, and the impact of bold ideas. Every project is an opportunity to push boundaries and redefine what's possible.</p>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number">47</div>
+                    <div class="stat-label">Projects Delivered</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Countries Reached</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">Team Members</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">∞</div>
+                    <div class="stat-label">Coffee Consumed</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">VOID</div>
+                    <p>Creating bold digital experiences for forward-thinking brands. Tokyo-based, globally active.</p>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="#">Work</a></li>
+                        <li><a href="#">Studio</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Social</h4>
+                    <ul>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">LinkedIn</a></li>
+                        <li><a href="#">Are.na</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:hello@void.studio">hello@void.studio</a></li>
+                        <li><a href="tel:+81312345678">+81 3 1234 5678</a></li>
+                        <li><a href="#">Tokyo, Japan</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <span>© 2026 VOID Studio. All rights reserved.</span>
+                <span>Designed with intention. Built with precision.</span>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Custom Cursor
+        const cursor = document.getElementById('cursor');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.15;
+            cursorY += (mouseY - cursorY) * 0.15;
+            
+            cursor.style.left = cursorX - 6 + 'px';
+            cursor.style.top = cursorY - 6 + 'px';
+            
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+        
+        // Hover effects
+        document.querySelectorAll('[data-cursor="hover"]').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+        
+        // Stat counter animation
+        const stats = document.querySelectorAll('.stat-number');
+        const observerOptions = { threshold: 0.5 };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = entry.target;
+                    const finalValue = target.textContent;
+                    const isInfinite = finalValue === '∞';
+                    
+                    if (!isInfinite && !target.classList.contains('counted')) {
+                        target.classList.add('counted');
+                        let current = 0;
+                        const increment = parseInt(finalValue) / 50;
+                        const timer = setInterval(() => {
+                            current += increment;
+                            if (current >= parseInt(finalValue)) {
+                                target.textContent = finalValue;
+                                clearInterval(timer);
+                            } else {
+                                target.textContent = Math.floor(current);
+                            }
+                        }, 30);
+                    }
+                }
+            });
+        }, observerOptions);
+        
+        stats.forEach(stat => observer.observe(stat));
+    </script>
+</body>
+</html>
